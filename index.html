@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confess to Deya</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #ff7a00, #f9a800, #ff5f00);
+            background-size: 300% 300%;
+            animation: gradientShift 10s ease infinite;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            color: white;
+            width: 80%;
+            max-width: 600px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            display: none;
+            opacity: 0;
+            animation: fadeIn 3s forwards;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .heart {
+            font-size: 6rem;
+            color: red;
+            animation: heartPulse 1.5s infinite;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        @keyframes heartPulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        p {
+            font-size: 1.2rem;
+            opacity: 0;
+            margin-bottom: 20px;
+            animation: fadeInText 3s ease-out forwards;
+            display: none;
+        }
+
+        @keyframes fadeInText {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .button {
+            background-color: #ff5f00;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .button:hover {
+            transform: translateY(-5px);
+            background-color: #ff7a00;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart" onclick="showMessage()">❤</div>
+
+    <div class="container" id="messageContainer">
+        <h1>Hey Deya,</h1>
+        <p>Gue udah lama mikirin ini, dan akhirnya gue memutuskan buat ngungkapin perasaan gue.</p>
+        <p>Sebenarnya, gue <strong>suka</strong> sama lo lebih dari sekedar teman.</p>
+        <p>Gue gak tahu gimana perasaan lo, tapi yang pasti gue pengen lo tau ini dari hati gue.</p>
+        <p>Gue harap, di tahun baru ini, kita bisa mulai sesuatu yang lebih dari sekedar teman.</p>
+        <p>Apa lo mau jadi lebih dari teman gue? :)</p>
+        <button class="button" id="confessButton" onclick="changeButtonText()">Diterima</button>
+    </div>
+
+    <div id="whatsappLink" style="display:none;">
+        <a id="whatsappMessage" href="" target="_blank">
+            <button class="button">Kirim Pesan ke WhatsApp</button>
+        </a>
+    </div>
+
+    <script>
+        function showMessage() {
+            // Menampilkan konten setelah klik hati
+            document.querySelector('.heart').style.display = 'none';
+            document.getElementById('messageContainer').style.display = 'block';
+
+            // Animasi teks muncul satu per satu
+            const paragraphs = document.querySelectorAll('.container p');
+            let delay = 0;
+            paragraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.style.display = 'block';
+                    p.style.animation = 'fadeInText 3s ease-out forwards';
+                }, delay);
+                delay += 2000; // Delay antar paragraf
+            });
+        }
+
+        function changeButtonText() {
+            const button = document.getElementById('confessButton');
+            button.textContent = "Beneran? coba klik wa"; // Ganti teks tombol menjadi 'Diterima'
+            button.style.backgroundColor = "#4CAF50"; // Ubah warna tombol menjadi hijau sebagai tanda penerimaan
+            button.style.cursor = 'default'; // Mengubah cursor agar tidak bisa diklik lagi
+            button.setAttribute('disabled', 'true'); // Menonaktifkan tombol setelah diklik
+
+            // Tampilkan link ke WhatsApp
+            document.getElementById('whatsappLink').style.display = 'block';
+
+            // Buat pesan yang akan dikirim ke WhatsApp
+            const message = encodeURIComponent("Hai, aku sudah menerima perasaanmu! 😊");
+            const phoneNumber = '6289669109043'; // Nomor WA tanpa tanda plus, menggunakan kode negara Indonesia (+62)
+            const whatsappUrl = 'https://wa.me/${phoneNumber}?text=${message}';
+            document.getElementById('whatsappMessage').setAttribute('href', whatsappUrl);
+        }
+    </script>
+
+</body>
+</html>
